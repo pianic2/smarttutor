@@ -1,0 +1,50 @@
+import React from "react";
+import { Text, StyleSheet } from "react-native";
+import { COLOR_MAP } from "../constants/colors";
+
+interface STTitleProps {
+  children: React.ReactNode;
+  size?: "sm" | "md" | "lg" | "xl";
+  align?: "left" | "center" | "right";
+  color?: string;
+  mode?: "light" | "dark"; // per futura dark mode
+}
+
+export default function STTitle({
+  children,
+  size = "lg",
+  align = "center",
+  color,
+  mode = "light",
+}: STTitleProps) {
+  const sizes = {
+    sm: 18,
+    md: 22,
+    lg: 28,
+    xl: 34,
+  };
+
+  const palette = COLOR_MAP[mode];
+
+  return (
+    <Text
+      style={[
+        styles.text,
+        {
+          fontSize: sizes[size],
+          textAlign: align,
+          color: color || palette.textPrimary,
+        },
+      ]}
+    >
+      {children}
+    </Text>
+  );
+}
+
+const styles = StyleSheet.create({
+  text: {
+    fontWeight: "800",
+    letterSpacing: 0.5,
+  },
+});

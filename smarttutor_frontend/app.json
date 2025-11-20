@@ -1,0 +1,8 @@
+{
+  "name": "smarttutor_frontend",
+  "slug": "smarttutor_frontend",
+  "plugins": [
+    "expo-router",
+    "expo-secure-store"
+  ]
+}
