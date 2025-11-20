@@ -1,44 +1,129 @@
 import { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
+import STFadeInDown from "../src/ui/atoms/STFadeInDown";
 import STInput from "../src/ui/atoms/STInput";
 import STButton from "../src/ui/atoms/STButton";
-import STTitle from "../src/ui/atoms/STTitle";
+import STHeader from "../src/ui/atoms/STHeader";
 import { login } from "../src/api/auth";
 import { saveTokenPair } from "../src/utils/storage";
 import { useAuth } from "../src/hooks/useAuth";
 import { Link } from "expo-router";
+import { COLOR_MAP } from "../src/utils/colors";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const { refreshUser } = useAuth();
 
   async function handleLogin() {
+    if (loading) return; // evita doppio click
+    setError(null);
+
+    if (!username || !password) {
+      setError("Inserisci username e password.");
+      return;
+    }
+
     try {
+      setLoading(true);
+
       const tokens = await login(username, password);
       await saveTokenPair(tokens.access, tokens.refresh);
       await refreshUser();
     } catch (e: any) {
-      console.log(e.response?.data || e.message);
+      console.log("LOGIN ERROR:", e.response?.data || e.message);
+
+      const msg =
+        e.response?.data?.detail ||
+        e.response?.data?.non_field_errors?.[0] ||
+        e.response?.data?.error ||
+        "Credenziali non valide";
+
+      setError(msg);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <View style={{ padding: 20, marginTop: 100 }}>
-      <Text style={{ fontSize: 26, marginBottom: 20 }}>Login</Text>
-      <STTitle size="xl">Benvenuto in SmartTutor</STTitle>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#FFF8F1",
+        paddingHorizontal: 20,
+      }}
+    >
+      <STFadeInDown duration={400} delay={0} style={{ width: "100%" }}>
+        <STHeader
+          level={2}
+          color={COLOR_MAP.light.primary.bg}
+        >
+          Accedi al tuo account
+        </STHeader>
+      </STFadeInDown>
 
-      <STInput placeholder="Username" value={username} onChangeText={setUsername} />
-      <STInput
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
+      {/* ERROR MESSAGE */}
+      {error && (
+        <STFadeInDown duration={300} delay={200} style={{ width: "100%" }}>
+          <Text
+            style={{
+              color: "#E16458",
+              marginBottom: 10,
+              fontSize: 15,
+              fontWeight: "500",
+            }}
+          >
+            {error}
+          </Text>
+        </STFadeInDown>
+      )}
 
-      <STButton title="Accedi" onPress={handleLogin} />
+      <STFadeInDown duration={400} delay={400} style={{ width: "100%" }}>
+        <STInput
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+          autoCapitalize="none"
+        />
+      </STFadeInDown>
 
-      <Link href="/register">Non hai un account? Registrati</Link>
+      <STFadeInDown duration={400} delay={800} style={{ width: "100%" }}>
+        <STInput
+          placeholder="Password"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+      </STFadeInDown>
+
+      <STFadeInDown duration={400} delay={1200} style={{ width: "100%", marginBottom: 10 }}>
+        <STButton
+          title={loading ? "Attendere..." : "Accedi"}
+          onPress={handleLogin}
+          disabled={loading}
+        />
+      </STFadeInDown>
+
+      {loading && (
+        <ActivityIndicator
+          size="small"
+          color={COLOR_MAP.light.primary.bg}
+          style={{ marginBottom: 10 }}
+        />
+      )}
+
+      <STFadeInDown duration={400} delay={1600} style={{ width: "100%" }}>
+        <Link href="/register">
+          Non hai un account?
+          <Text style={{ color: COLOR_MAP.light.primary.bg }}> Registrati</Text>
+        </Link>
+      </STFadeInDown>
     </View>
   );
 }

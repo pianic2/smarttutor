@@ -26,5 +26,6 @@ export default function STFadeInDown({
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+  },
 });

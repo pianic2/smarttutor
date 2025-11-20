@@ -1,15 +1,14 @@
-import axios from 'axios';
-import * as SecureStore from 'expo-secure-store';
+import axios from "axios";
+import { getAccessToken } from "../utils/storage";
 
-export const API_BASE = "http://192.168.1.50:8000/api"; 
-// METTI IP DEL SERVER (Django) IN LAN
+export const API_BASE = "https://bookish-cod-56vrrp4pq7jcr49-8000.app.github.dev";
 
 const api = axios.create({
   baseURL: API_BASE,
 });
 
 api.interceptors.request.use(async (config) => {
-  const token = await SecureStore.getItemAsync("access");
+  const token = await getAccessToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });

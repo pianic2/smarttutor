@@ -8,7 +8,7 @@ export const COLOR_MAP = {
     secondary: {
       bg: "#F2E5DA",
       text: "#3A2F2A",
-      border: "#EADFD6",
+      border: "#F2E5DA",
     },
     outline: {
       bg: "transparent",

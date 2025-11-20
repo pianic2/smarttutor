@@ -2,8 +2,7 @@ import { View, Text } from "react-native";
 import { Link } from "expo-router";
 import STFadeInDown from "../src/ui/atoms/STFadeInDown";
 import STButton from "../src/ui/atoms/STButton";
-import STBrand from "../src/ui/atoms/STBrand"; // <-- aggiunto
-
+import STBrand from "../src/ui/atoms/STBrand";
 export default function Index() {
   return (
     <View
@@ -16,7 +15,6 @@ export default function Index() {
       }}
     >
       <STFadeInDown duration={400} style={{ marginBottom: 30 }}>
-        
         {/* Brand Logo + Name */}
         <STBrand size={40} />
 
@@ -33,15 +31,17 @@ export default function Index() {
         </Text>
       </STFadeInDown>
 
-      <STFadeInDown duration={400} delay={400} style={{ width: "100%" }}>
+      <STFadeInDown duration={400} delay={400} style={{ width: "100%", marginBottom: 10 }}>
         <Link href="/login" asChild>
           <STButton
             title="Vai al Login"
             type="primary"
           />
         </Link>
+      </STFadeInDown>
 
-        <Link href="/register" asChild>
+      <STFadeInDown duration={400} delay={800} style={{ width: "100%", marginBottom: 10 }}>
+       <Link href="/register" asChild>
           <STButton
             title="Registrati"
             type="outline"
