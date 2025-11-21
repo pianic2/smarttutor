@@ -1,9 +1,9 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text, FlatList } from "react-native";
-import { getNotes, createNote } from "../../../src/api/notes";
-import STInput from "../../../src/ui/atoms/STInput";
-import STButton from "../../../src/ui/atoms/STButton";
+import { getNotes, createNote } from "../../../../src/api/notes";
+import STInput from "../../../../src/ui/atoms/STInput";
+import STButton from "../../../../src/ui/atoms/STButton";
 
 export default function NotesScreen() {
   const { id } = useLocalSearchParams();

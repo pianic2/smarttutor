@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { View, Text, FlatList } from "react-native";
-import { getCourses, createCourse } from "../../src/api/courses";
-import STButton from "../../src/ui/atoms/STButton";
-import STInput from "../../src/ui/atoms/STInput";
+import { getCourses, createCourse } from "../../../src/api/courses";
+import STButton from "../../../src/ui/atoms/STButton";
+import STInput from "../../../src/ui/atoms/STInput";
 import { Link } from "expo-router";
 
 export default function CoursesScreen() {

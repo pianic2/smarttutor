@@ -1,12 +1,30 @@
-import { Stack } from "expo-router";
-import { AuthProvider, AuthContext } from "../src/context/AuthContext";
-import { useContext } from "react";
-import { ActivityIndicator, View } from "react-native";
+// app/_layout.tsx
+import { Slot, useRouter, useSegments } from "expo-router";
+import { useEffect } from "react";
+import { View, ActivityIndicator } from "react-native";
+import { AuthProvider, useAuth } from "../src/context/AuthContext";
 
-function RootLayoutNav() {
-  const { user, loading } = useContext(AuthContext);
+function AuthGuard() {
+  const { user, loading } = useAuth();
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loading) return;
+
+    const inAuthGroup = segments[0] === "(auth)";
+
+    if (!user && !inAuthGroup) {
+      // non loggato ma vuole andare in (app) → vai al login
+      router.replace("/login");
+    } else if (user && inAuthGroup) {
+      // loggato ma in (auth) → manda in area app
+      router.replace("/(app)");
+    }
+  }, [segments, user, loading]);
 
   if (loading) {
+    // schermata di loading globale
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" />
@@ -14,29 +32,14 @@ function RootLayoutNav() {
     );
   }
 
-  return (
-    <Stack screenOptions={{ headerShown: false }}>
-      {user ? (
-        <>
-          <Stack.Screen name="courses/index" />
-          <Stack.Screen name="courses/[id]/notes" />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="login" />
-          <Stack.Screen name="register" />
-          <Stack.Screen name="terms" />
-        </>
-      )}
-    </Stack>
-  );
+  // Se tutto ok, lascia che expo-router gestisca i layout interni
+  return <Slot />;
 }
 
-export default function Layout() {
+export default function RootLayout() {
   return (
     <AuthProvider>
-      <RootLayoutNav />
+      <AuthGuard />
     </AuthProvider>
   );
 }

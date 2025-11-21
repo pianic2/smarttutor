@@ -1,14 +1,15 @@
+// app/(auth)/login.tsx
 import { useState } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
-import STFadeInDown from "../src/ui/atoms/STFadeInDown";
-import STInput from "../src/ui/atoms/STInput";
-import STButton from "../src/ui/atoms/STButton";
-import STHeader from "../src/ui/atoms/STHeader";
-import { login } from "../src/api/auth";
-import { saveTokenPair } from "../src/utils/storage";
-import { useAuth } from "../src/hooks/useAuth";
+import STFadeInDown from "../../src/ui/atoms/STFadeInDown";
+import STInput from "../../src/ui/atoms/STInput";
+import STButton from "../../src/ui/atoms/STButton";
+import STHeader from "../../src/ui/atoms/STHeader";
+import { login } from "../../src/api/auth";
+import { saveTokenPair } from "../../src/utils/storage";
+import { useAuth } from "../../src/hooks/useAuth";
 import { Link } from "expo-router";
-import { COLOR_MAP } from "../src/utils/colors";
+import { COLOR_MAP } from "../../src/utils/colors";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -20,7 +21,7 @@ export default function Login() {
   const { refreshUser } = useAuth();
 
   async function handleLogin() {
-    if (loading) return; // evita doppio click
+    if (loading) return;
     setError(null);
 
     if (!username || !password) {
@@ -33,7 +34,7 @@ export default function Login() {
 
       const tokens = await login(username, password);
       await saveTokenPair(tokens.access, tokens.refresh);
-      await refreshUser();
+      await refreshUser(); // Cambia lo user nel context → AuthGuard fa redirect
     } catch (e: any) {
       console.log("LOGIN ERROR:", e.response?.data || e.message);
 
@@ -60,15 +61,11 @@ export default function Login() {
       }}
     >
       <STFadeInDown duration={400} delay={0} style={{ width: "100%" }}>
-        <STHeader
-          level={2}
-          color={COLOR_MAP.light.primary.bg}
-        >
+        <STHeader level={2} color={COLOR_MAP.light.primary.bg}>
           Accedi al tuo account
         </STHeader>
       </STFadeInDown>
 
-      {/* ERROR MESSAGE */}
       {error && (
         <STFadeInDown duration={300} delay={200} style={{ width: "100%" }}>
           <Text
@@ -102,7 +99,11 @@ export default function Login() {
         />
       </STFadeInDown>
 
-      <STFadeInDown duration={400} delay={1200} style={{ width: "100%", marginBottom: 10 }}>
+      <STFadeInDown
+        duration={400}
+        delay={1200}
+        style={{ width: "100%", marginBottom: 10 }}
+      >
         <STButton
           title={loading ? "Attendere..." : "Accedi"}
           onPress={handleLogin}
@@ -119,7 +120,7 @@ export default function Login() {
       )}
 
       <STFadeInDown duration={400} delay={1600} style={{ width: "100%" }}>
-        <Link href="/register">
+        <Link href="/(auth)/register">
           Non hai un account?
           <Text style={{ color: COLOR_MAP.light.primary.bg }}> Registrati</Text>
         </Link>

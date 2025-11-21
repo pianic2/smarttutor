@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
 import { Link } from "expo-router";
-import STFadeInDown from "../src/ui/atoms/STFadeInDown";
-import STButton from "../src/ui/atoms/STButton";
-import STBrand from "../src/ui/atoms/STBrand";
+import STFadeInDown from "../../src/ui/atoms/STFadeInDown";
+import STButton from "../../src/ui/atoms/STButton";
+import STBrand from "../../src/ui/atoms/STBrand";
 export default function Index() {
   return (
     <View

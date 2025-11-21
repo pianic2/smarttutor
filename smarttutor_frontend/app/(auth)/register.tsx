@@ -1,12 +1,12 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { useState } from "react";
-import STFadeInDown from "../src/ui/atoms/STFadeInDown";
-import STInput from "../src/ui/atoms/STInput";
-import STButton from "../src/ui/atoms/STButton";
-import STHeader from "../src/ui/atoms/STHeader";
-import { registerUser } from "../src/api/auth";
+import STFadeInDown from "../../src/ui/atoms/STFadeInDown";
+import STInput from "../../src/ui/atoms/STInput";
+import STButton from "../../src/ui/atoms/STButton";
+import STHeader from "../../src/ui/atoms/STHeader";
+import { registerUser } from "../../src/api/auth";
 import { Link, useRouter } from "expo-router";
-import { COLOR_MAP } from "../src/utils/colors";
+import { COLOR_MAP } from "../../src/utils/colors";
 
 export default function Register() {
   const [username, setUsername] = useState("");

@@ -25,7 +25,7 @@ export default function STHeading({
   const sizes = {
     1: 42,
     2: 32,
-    3: 24,
+    3: 26,
     4: 20,
     5: 18,
     6: 16,
@@ -34,10 +34,10 @@ export default function STHeading({
   const weights = {
     1: "700",
     2: "700",
-    3: "400",
-    4: "400",
-    5: "400",
-    6: "400",
+    3: "700",
+    4: "500",
+    5: "500",
+    6: "500",
   };
 
   return (

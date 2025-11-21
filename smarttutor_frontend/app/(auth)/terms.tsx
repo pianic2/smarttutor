@@ -1,6 +1,6 @@
 import { ScrollView, Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import STHeader from "../src/ui/atoms/STHeader";
-import STButton from "../src/ui/atoms/STButton"
+import STHeader from "../../src/ui/atoms/STHeader";
+import STButton from "../../src/ui/atoms/STButton"
 import { Link, useRouter } from "expo-router";
 
 export default function TermsScreen() {
